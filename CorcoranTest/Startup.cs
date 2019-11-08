@@ -25,6 +25,11 @@ namespace CorcoranTest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(option=> {
+                option.AddPolicy("_myAllowSpecificOrigins", builder => {
+                    builder.WithOrigins("https://react-2yutzy.stackblitz.io").AllowAnyMethod();
+                });
+            });
             services.AddControllers();
         }
 
@@ -37,7 +42,9 @@ namespace CorcoranTest
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors(builder => {
+                builder.WithOrigins("https://react-2yutzy.stackblitz.io");
+            });
             app.UseRouting();
 
             app.UseAuthorization();

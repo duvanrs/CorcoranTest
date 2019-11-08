@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CorcoranTest.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +22,7 @@ namespace CorcoranTest.Controllers
             new PresidentModel(){President="James Madison",BirthDay="1751-3-16",BirthPlace="Port Conway, Va.",DeathDay="1836-6-28",DeathPlace="Orange Co., Va."},
             new PresidentModel(){President="James Monroe",BirthDay="1758-4-28",BirthPlace="Westmoreland Co., Va.",DeathDay="1831-7-4",DeathPlace="New York, New York"},
             new PresidentModel(){President="John Quincy Adams",BirthDay="1767-7-11",BirthPlace="Quincy, Mass.",DeathDay="1848-2-23",DeathPlace="Washington, D.C."},
-            new PresidentModel(){President="Andrew Jackson",BirthDay="1767-3-15",BirthPlace="Waxhaws, No./So. Carolina",DeathDay="1845-6-8",DeathPlace="Nashville, Tennessee"},
+            new PresidentModel(){President="Andrew Jackson",BirthDay="1767-3-15",BirthPlace="Waxhaws, Carolina",DeathDay="1845-6-8",DeathPlace="Nashville, Tennessee"},
             new PresidentModel(){President="Martin Van Buren",BirthDay="1782-12-5",BirthPlace="Kinderhook, New York",DeathDay="1862-7-24",DeathPlace="Kinderhook, New York"},
             new PresidentModel(){President="William Henry Harrison",BirthDay="1773-2-9",BirthPlace="Charles City Co., Va.",DeathDay="1841-4-4",DeathPlace="Washington, D.C."},
             new PresidentModel(){President="John Tyler",BirthDay="1790-3-29",BirthPlace="Charles City Co., Va.",DeathDay="1862-1-18",DeathPlace="Richmond, Va."},
@@ -63,12 +64,14 @@ namespace CorcoranTest.Controllers
         };
 
         [HttpGet]
+        [EnableCors("_myAllowSpecificOrigins")]
         public IEnumerable<PresidentModel> Get()
         {
             return presidents;
         }
 
         [HttpGet("{sorted}",Name = "GetSorted")]
+        [EnableCors("_myAllowSpecificOrigins")]
         public IEnumerable<PresidentModel> Get(string sorted)
         {
             switch (sorted)
@@ -81,6 +84,12 @@ namespace CorcoranTest.Controllers
                     return presidents;                    
             }
             
+        }
+
+        [HttpOptions]
+        public void Options()
+        {
+
         }
     }
 
